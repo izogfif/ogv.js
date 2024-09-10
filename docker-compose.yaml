@@ -1,0 +1,15 @@
+services:
+  ogvjscompiler:
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM --platform=linux/amd64 emscripten/emsdk:3.1.65@sha256:f62da65f81994c85293222ea5f9d26203ffc34008194c329bfaaefcbb97d960b
+        RUN apt-get update
+        RUN apt-get install -y autoconf libtool build-essential automake libtool pkg-config meson ninja-build
+    restart: "no"
+    volumes:
+      - type: bind
+        source: .
+        target: /ogv.js
+    working_dir: /ogv.js
+    entrypoint:  ["make"]
