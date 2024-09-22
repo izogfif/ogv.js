@@ -156,7 +156,7 @@ int read_int(const char **pBuf)
 
 int ogv_video_decoder_process_frame(const char *data, size_t data_len)
 {
- printf("ogv-decoder-video-theora: ogv_video_decoder_process_frame is being called. data size=%d\n", data_len);
+ // printf("ogv-decoder-video-theora: ogv_video_decoder_process_frame is being called. data size=%d\n", data_len);
  if (!data_len)
  {
 		return 1;

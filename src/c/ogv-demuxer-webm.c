@@ -38,7 +38,7 @@ enum AppState {
     STATE_SEEKING
 } appState;
 
-void ogv_demuxer_init(void) {
+void ogv_demuxer_init(const char *url, int len) {
     appState = STATE_BEGIN;
     bufferQueue = bq_init();
 }

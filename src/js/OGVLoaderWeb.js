@@ -3,31 +3,37 @@
 
 import OGVDecoderAudioProxy from './OGVDecoderAudioProxy.js';
 import OGVDecoderVideoProxy from './OGVDecoderVideoProxy.js';
+import OGVDemuxerProxy from './OGVDemuxerProxy.js';
 import OGVLoaderBase from './OGVLoaderBase.js';
 
 const proxyInfo = {
-	audio: {
-		proxy: OGVDecoderAudioProxy,
-		worker: 'ogv-worker-audio.js',
-	},
-	video: {
-		proxy: OGVDecoderVideoProxy,
-		worker: 'ogv-worker-video.js',
-	},
+    audio: {
+        proxy: OGVDecoderAudioProxy,
+        worker: 'ogv-worker-audio.js',
+    },
+    video: {
+        proxy: OGVDecoderVideoProxy,
+        worker: 'ogv-worker-video.js',
+    },
+    demuxer: {
+        proxy: OGVDemuxerProxy,
+        worker: 'ogv-worker-video.js',
+    }
 };
 
 // @fixme make this less awful
 const proxyTypes = {
-	OGVDecoderAudioOpus: 'audio',
-	OGVDecoderAudioVorbis: 'audio',
-	OGVDecoderVideoTheora: 'video',
-	OGVDecoderVideoTheoraSIMD: 'video',
-	OGVDecoderVideoVP8: 'video',
-	OGVDecoderVideoVP8SIMD: 'video',
-	OGVDecoderVideoVP9: 'video',
-	OGVDecoderVideoVP9SIMD: 'video',
-	OGVDecoderVideoAV1: 'video',
-	OGVDecoderVideoAV1SIMD: 'video',
+    OGVDecoderAudioOpus: 'audio',
+    OGVDecoderAudioVorbis: 'audio',
+    OGVDecoderVideoTheora: 'video',
+    OGVDecoderVideoTheoraSIMD: 'video',
+    OGVDecoderVideoVP8: 'video',
+    OGVDecoderVideoVP8SIMD: 'video',
+    OGVDecoderVideoVP9: 'video',
+    OGVDecoderVideoVP9SIMD: 'video',
+    OGVDecoderVideoAV1: 'video',
+    OGVDecoderVideoAV1SIMD: 'video',
+    OGVDemuxerOgg: 'demuxer',
 };
 
 class OGVLoaderWeb extends OGVLoaderBase {
@@ -43,28 +49,28 @@ class OGVLoaderWeb extends OGVLoaderBase {
 
     defaultBase() {
         // for browser, try to autodetect
-		let scriptNodes = document.querySelectorAll('script'),
-			regex = /^(?:|(.*)\/)ogv(?:-support|-es2017)?\.js(?:\?|#|$)/,
-			path,
-			matches;
-		for (let i = 0; i < scriptNodes.length; i++) {
-			path = scriptNodes[i].getAttribute('src');
-			if (path) {
-				matches = path.match(regex);
-				if (matches) {
-					return matches[1];
-				}
-			}
-		}
+        let scriptNodes = document.querySelectorAll('script'),
+            regex = /^(?:|(.*)\/)ogv(?:-support|-es2017)?\.js(?:\?|#|$)/,
+            path,
+            matches;
+        for (let i = 0; i < scriptNodes.length; i++) {
+            path = scriptNodes[i].getAttribute('src');
+            if (path) {
+                matches = path.match(regex);
+                if (matches) {
+                    return matches[1];
+                }
+            }
+        }
 
-		return undefined; // current dir
-	}
+        return undefined; // current dir
+    }
 
     loadClass(className, callback, options) {
-		options = options || {};
-		if (options.worker) {
-			this.workerProxy(className, callback);
-		} else {
+        options = options || {};
+        if (options.worker) {
+            this.workerProxy(className, callback);
+        } else {
             super.loadClass(className, callback, options);
         }
     }
@@ -109,7 +115,7 @@ class OGVLoaderWeb extends OGVLoaderBase {
             workerUrl = this.urlForScript(workerScript),
             worker;
 
-        var construct = function(options) {
+        var construct = function (options) {
             return new proxyClass(worker, className, options);
         };
 
@@ -131,7 +137,7 @@ class OGVLoaderWeb extends OGVLoaderBase {
                     var workerSource = codecResponse + " " + workerResponse +
                         "\nOGVLoader.base = " + JSON.stringify(OGVLoader.base);
                     try {
-                        blob = new Blob([workerSource], {type: 'application/javascript'});
+                        blob = new Blob([workerSource], { type: 'application/javascript' });
                     } catch (e) { // Backwards-compatibility
                         window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
                         blob = new BlobBuilder();
@@ -140,7 +146,7 @@ class OGVLoaderWeb extends OGVLoaderBase {
                     }
                     // Create the web worker
                     worker = new Worker(URL.createObjectURL(blob));
-                    callback(function(options) {
+                    callback(function (options) {
                         return Promise.resolve(new construct(options));
                     })
                 }
@@ -149,8 +155,8 @@ class OGVLoaderWeb extends OGVLoaderBase {
             // Load the codec
             getCodec = new XMLHttpRequest();
             getCodec.open("GET", codecUrl, true);
-            getCodec.onreadystatechange = function() {
-                if(getCodec.readyState == 4 && getCodec.status == 200) {
+            getCodec.onreadystatechange = function () {
+                if (getCodec.readyState == 4 && getCodec.status == 200) {
                     codecResponse = getCodec.responseText;
                     // Update the codec response loaded flag
                     codecLoaded = true;
@@ -162,8 +168,8 @@ class OGVLoaderWeb extends OGVLoaderBase {
             // Load the worker
             getWorker = new XMLHttpRequest();
             getWorker.open("GET", workerUrl, true);
-            getWorker.onreadystatechange = function() {
-                if(getWorker.readyState == 4 && getWorker.status == 200) {
+            getWorker.onreadystatechange = function () {
+                if (getWorker.readyState == 4 && getWorker.status == 200) {
                     workerResponse = getWorker.responseText;
                     // Update the worker response loaded flag
                     workerLoaded = true;
@@ -174,7 +180,7 @@ class OGVLoaderWeb extends OGVLoaderBase {
         } else {
             // Local URL; load it directly for simplicity.
             worker = new Worker(workerUrl);
-            callback(function(options) {
+            callback(function (options) {
                 return Promise.resolve(new construct(options));
             })
         }

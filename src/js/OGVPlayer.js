@@ -258,6 +258,7 @@ class OGVPlayer extends OGVJSElement {
 		this._height = 0;
 		this._volume = 1;
 		this._playbackRate = 1;
+		this._inputFile = null;
 
 		Object.defineProperties(this, {
 			/**
@@ -269,6 +270,17 @@ class OGVPlayer extends OGVJSElement {
 				},
 				set: function setSrc(val) {
 					this.setAttribute('src', val);
+					this._loading = false; // just in case?
+					this._prepForLoad("interactive");
+				}
+			},
+
+			inputFile: {
+				get: function getInputFile() {
+					return this._inputFile;
+				},
+				set: function setSrc(val) {
+					this._inputFile = val;
 					this._loading = false; // just in case?
 					this._prepForLoad("interactive");
 				}
@@ -2363,6 +2375,8 @@ class OGVPlayer extends OGVJSElement {
 			worker: this._enableWorker,
 			threading: this._enableThreading,
 			simd: this._enableSIMD,
+			url: this._stream.url,
+			file: this._inputFile,
 		};
 		if (this._detectedType) {
 			codecOptions.type = this._detectedType;

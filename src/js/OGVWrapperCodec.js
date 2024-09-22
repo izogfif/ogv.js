@@ -1,12 +1,12 @@
 /**
- * Proxy object for web worker interface for codec classes.
- *
- * Used by the high-level player interface.
- *
- * @author Brooke Vibber <bvibber@pobox.com>
- * @copyright 2015-2024 Brooke Vibber
- * @license MIT-style
- */
+	* Proxy object for web worker interface for codec classes.
+	*
+	* Used by the high-level player interface.
+	*
+	* @author Brooke Vibber <bvibber@pobox.com>
+	* @copyright 2015-2024 Brooke Vibber
+	* @license MIT-style
+	*/
 import OGVLoader from './OGVLoaderWeb.js';
 
 const audioClassMap = {
@@ -47,7 +47,7 @@ class OGVWrapperCodec {
 
 		Object.defineProperties(this, {
 			duration: {
-				get: function() {
+				get: function () {
 					if (this.loadedMetadata) {
 						return this.demuxer.duration;
 					} else {
@@ -56,22 +56,22 @@ class OGVWrapperCodec {
 				}
 			},
 			hasAudio: {
-				get: function() {
+				get: function () {
 					return this.loadedMetadata && !!this.audioDecoder;
 				}
 			},
 			audioReady: {
-				get: function() {
+				get: function () {
 					return this.hasAudio && this.demuxer.audioReady;
 				}
 			},
 			audioTimestamp: {
-				get: function() {
+				get: function () {
 					return this.demuxer.audioTimestamp;
 				}
 			},
 			audioFormat: {
-				get: function() {
+				get: function () {
 					if (this.hasAudio) {
 						return this.audioDecoder.audioFormat;
 					} else {
@@ -80,7 +80,7 @@ class OGVWrapperCodec {
 				}
 			},
 			audioBuffer: {
-				get: function() {
+				get: function () {
 					if (this.hasAudio) {
 						return this.audioDecoder.audioBuffer;
 					} else {
@@ -89,32 +89,32 @@ class OGVWrapperCodec {
 				}
 			},
 			hasVideo: {
-				get: function() {
+				get: function () {
 					return this.loadedMetadata && !!this.videoDecoder;
 				}
 			},
 			frameReady: {
-				get: function() {
+				get: function () {
 					return this.hasVideo && this.demuxer.frameReady;
 				}
 			},
 			frameTimestamp: {
-				get: function() {
+				get: function () {
 					return this.demuxer.frameTimestamp;
 				}
 			},
 			keyframeTimestamp: {
-				get: function() {
+				get: function () {
 					return this.demuxer.keyframeTimestamp;
 				}
 			},
 			nextKeyframeTimestamp: {
-				get: function() {
+				get: function () {
 					return this.demuxer.nextKeyframeTimestamp;
 				}
 			},
 			videoFormat: {
-				get: function() {
+				get: function () {
 					if (this.hasVideo) {
 						return this.videoDecoder.videoFormat;
 					} else {
@@ -123,7 +123,7 @@ class OGVWrapperCodec {
 				}
 			},
 			frameBuffer: {
-				get: function() {
+				get: function () {
 					if (this.hasVideo) {
 						return this.videoDecoder.frameBuffer;
 					} else {
@@ -132,12 +132,12 @@ class OGVWrapperCodec {
 				}
 			},
 			seekable: {
-				get: function() {
+				get: function () {
 					return this.demuxer.seekable;
 				}
 			},
 			demuxerCpuTime: {
-				get: function() {
+				get: function () {
 					if (this.demuxer) {
 						return this.demuxer.cpuTime;
 					} else {
@@ -146,7 +146,7 @@ class OGVWrapperCodec {
 				}
 			},
 			audioCpuTime: {
-				get: function() {
+				get: function () {
 					if (this.audioDecoder) {
 						return this.audioDecoder.cpuTime;
 					} else {
@@ -155,7 +155,7 @@ class OGVWrapperCodec {
 				}
 			},
 			videoCpuTime: {
-				get: function() {
+				get: function () {
 					if (this.videoDecoder) {
 						return this.videoDecoder.cpuTime;
 					} else {
@@ -192,11 +192,11 @@ class OGVWrapperCodec {
 	init(callback) {
 		this.processing = true;
 		let demuxerClassName = 'OGVDemuxerOgg';
-		if (this.options.type === 'video/webm' || this.options.type === 'audio/webm') {
-			demuxerClassName = 'OGVDemuxerWebM';
-		} else {
-			demuxerClassName = 'OGVDemuxerOgg';
-		}
+		// if (this.options.type === 'video/webm' || this.options.type === 'audio/webm') {
+		// 	demuxerClassName = 'OGVDemuxerWebM';
+		// } else {
+		// 	demuxerClassName = 'OGVDemuxerOgg';
+		// }
 		OGVLoader.loadClass(demuxerClassName, (demuxerClass) => {
 			demuxerClass().then((demuxer) => {
 				this.demuxer = demuxer;
@@ -206,9 +206,12 @@ class OGVWrapperCodec {
 					}
 				};
 				demuxer.init();
+				// demuxer.init(this.options.file);
 				this.processing = false;
 				callback();
 			});
+		}, {
+			// worker: this.options.worker
 		});
 	}
 
@@ -271,7 +274,7 @@ class OGVWrapperCodec {
 
 			} else if (this.demuxer.audioReady) {
 
-				let {data} = this.demuxer.dequeueAudioPacket();
+				let { data } = this.demuxer.dequeueAudioPacket();
 				this.audioBytes += data.byteLength;
 				this.audioDecoder.processHeader(data, (ret) => {
 					finish(true);
@@ -294,7 +297,7 @@ class OGVWrapperCodec {
 			} else if (this.demuxer.frameReady) {
 
 				this.processing = true;
-				let {data} = this.demuxer.dequeueVideoPacket();
+				let { data } = this.demuxer.dequeueVideoPacket();
 				this.videoBytes += data.byteLength;
 				this.videoDecoder.processHeader(data, () => {
 					finish(true);
@@ -331,7 +334,7 @@ class OGVWrapperCodec {
 		let cb = this.flushSafe(callback),
 			timestamp = this.frameTimestamp,
 			keyframeTimestamp = this.keyframeTimestamp;
-		let {data} = this.demuxer.dequeueVideoPacket();
+		let { data } = this.demuxer.dequeueVideoPacket();
 		this.videoBytes += data.byteLength;
 		this.videoDecoder.processFrame(data, (ok) => {
 			// hack
@@ -346,7 +349,7 @@ class OGVWrapperCodec {
 
 	decodeAudio(callback) {
 		let cb = this.flushSafe(callback);
-		let {data, discardPadding} = this.demuxer.dequeueAudioPacket();
+		let { data, discardPadding } = this.demuxer.dequeueAudioPacket();
 		this.audioBytes += data.byteLength;
 		this.audioDecoder.processAudio(data, (ret) => {
 			if (discardPadding) {
@@ -371,13 +374,13 @@ class OGVWrapperCodec {
 	}
 
 	discardFrame(callback) {
-		let {data} = this.demuxer.dequeueVideoPacket();
+		let { data } = this.demuxer.dequeueVideoPacket();
 		this.videoBytes += data.byteLength;
 		callback();
 	}
 
 	discardAudio(callback) {
-		let {data} = this.demuxer.dequeueAudioPacket();
+		let { data } = this.demuxer.dequeueAudioPacket();
 		this.audioBytes += data.byteLength;
 		callback();
 	}
@@ -410,7 +413,7 @@ class OGVWrapperCodec {
 		let ret = this.demuxer.seekToKeypoint(timeSeconds);
 		callback(ret);
 	}
-	
+
 	loadAudioCodec(callback) {
 		let codec = (this.demuxer.audioCodec || '').toLowerCase();
 		if (codec) {

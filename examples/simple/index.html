@@ -4,41 +4,48 @@
     <title>Simple Player Example</title>
   </head>
   <body>
+    <input type="file" id="inputFile" />
+
     <button id="play">Play</button>
     <button id="pause" disabled>Pause</button>
 
     <script src="lib/ogv.js"></script>
     <script type="text/javascript">
-      var player = new OGVPlayer({
-        forceWebGL: true,
-      });
+      document.getElementById("inputFile").addEventListener("change", (e) => {
+        var player = new OGVPlayer({
+          forceWebGL: true,
+          worker: true,
+          wasm: true,
+          // simd: true,
+        });
 
-      var container = document.createElement("div");
+        var container = document.createElement("div");
 
-      container.appendChild(player);
+        container.appendChild(player);
 
-      document.body.appendChild(container);
+        document.body.appendChild(container);
 
-      play.addEventListener("click", function () {
-        play.disabled = true;
-        player.play();
-      });
+        play.addEventListener("click", function () {
+          play.disabled = true;
+          player.play();
+        });
 
-      pause.addEventListener("click", function () {
-        pause.disabled = true;
-        player.pause();
-      });
+        pause.addEventListener("click", function () {
+          pause.disabled = true;
+          player.pause();
+        });
+        player.inputFile = e.target.files[0];
+        player.src = "http://localhost:4600/sample-videos/cheetah.ogv";
 
-      player.src = "http://localhost:4600/sample-videos/cheetah.ogv";
+        player.addEventListener("playing", function () {
+          play.disabled = true;
+          pause.disabled = false;
+        });
 
-      player.addEventListener("playing", function () {
-        play.disabled = true;
-        pause.disabled = false;
-      });
-
-      player.addEventListener("pause", function () {
-        play.disabled = false;
-        pause.disabled = true;
+        player.addEventListener("pause", function () {
+          play.disabled = false;
+          pause.disabled = true;
+        });
       });
     </script>
   </body>
