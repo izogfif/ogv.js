@@ -35,7 +35,21 @@ mergeInto(LibraryManager.library, {
 								   picWidth, picHeight,
 								   picX, picY,
 								   displayWidth, displayHeight) {
-
+	// console.log(`ogvjs_callback_frame(
+			strideY = ${strideY},
+			strideCb = ${strideCb},
+			strideCr = ${strideCr},
+			width = ${width},
+			height = ${height},
+			chromaWidth = ${chromaWidth},
+			chromaHeight = ${chromaHeight},
+			picWidth = ${picWidth},
+			picHeight = ${picHeight},
+			picX = ${picX},
+			picY = ${picY},
+			displayWidth = ${displayWidth},
+			displayHeight = ${displayHeight}
+			)`)
 		// Create typed array copies of the source buffers from the emscripten heap:
 		var heap = wasmMemory.buffer;
 		var format = Module['videoFormat'];

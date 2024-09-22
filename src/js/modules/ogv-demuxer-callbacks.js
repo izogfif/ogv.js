@@ -61,6 +61,7 @@ mergeInto(LibraryManager.library, {
 	},
 
 	ogvjs_callback_video_packet: function(buffer, len, frameTimestamp, keyframeTimestamp, isKeyframe) {
+		// console.log(`ogvjs_callback_video_packet: frameTimestamp=${frameTimestamp}, keyframeTimestamp=${keyframeTimestamp}`)
 		Module['videoPackets'].push({
 			'data': wasmMemory.buffer.slice(buffer, buffer + len),
 			'timestamp': frameTimestamp,
