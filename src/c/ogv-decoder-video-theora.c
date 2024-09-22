@@ -23,7 +23,8 @@ int ogv_video_decoder_async(void)
 
 int ogv_video_decoder_process_header(const char *data, size_t data_len)
 {
- return 0;
+ printf("ogv-decoder-video-theora: ogv_video_decoder_process_header is being called. data=%p, data size=%lld\n", data, data_len);
+ return 1;
 }
 
 int read_int(const char **pBuf)
@@ -31,12 +32,17 @@ int read_int(const char **pBuf)
  int result = -1;
  memcpy(&result, *pBuf, 4);
  *pBuf += 4;
+	return result;
 }
 
 int ogv_video_decoder_process_frame(const char *data, size_t data_len)
 {
- printf("ogv-decoder-video-theora: ogv_video_decoder_process_frame is being called. data=%p, data size=%lld\n", data, data_len);
- const char *pBuf = data;
+ printf("ogv-decoder-video-theora: ogv_video_decoder_process_frame is being called. data size=%d\n", data_len);
+ if (!data_len)
+ {
+		return 1;
+ }
+ char *pBuf = data;
  int width = read_int(&pBuf);
  int height = read_int(&pBuf);
  int linesize0 = read_int(&pBuf);
