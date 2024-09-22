@@ -1,0 +1,5 @@
+docker build . -t ogvjs
+docker create -ti --name ogvjs ogvjs
+docker run -v .:/ogv.js -it --entrypoint bash ogvjs
+
+MSYS_NO_PATHCONV=1 docker run -v .:/ogv.js -it --entrypoint bash ogvjs

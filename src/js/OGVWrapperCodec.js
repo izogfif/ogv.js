@@ -191,7 +191,7 @@ class OGVWrapperCodec {
 	// - public methods
 	init(callback) {
 		this.processing = true;
-		let demuxerClassName;
+		let demuxerClassName = 'OGVDemuxerOgg';
 		if (this.options.type === 'video/webm' || this.options.type === 'audio/webm') {
 			demuxerClassName = 'OGVDemuxerWebM';
 		} else {
@@ -412,7 +412,7 @@ class OGVWrapperCodec {
 	}
 	
 	loadAudioCodec(callback) {
-		let codec = this.demuxer.audioCodec;
+		let codec = (this.demuxer.audioCodec || '').toLowerCase();
 		if (codec) {
 			let className = audioClassMap[codec];
 			this.processing = true;
@@ -438,7 +438,7 @@ class OGVWrapperCodec {
 	}
 
 	loadVideoCodec(callback) {
-		const codec = this.demuxer.videoCodec;
+		const codec = (this.demuxer.videoCodec || '').toLowerCase();
 		if (codec) {
 			let simd = !!this.options.simd,
 				threading = !!this.options.threading;

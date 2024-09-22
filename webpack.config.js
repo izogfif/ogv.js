@@ -3,6 +3,7 @@ var path = require("path");
 const TerserPlugin = require('terser-webpack-plugin');
 
 const BUILD_DIR = 'build';
+const inlineSourceMap = 'inline-source-map';
 
 function publicPath() {
   return '';
@@ -70,6 +71,7 @@ module.exports = [
     // Main entry point! - ES6
     entry: './src/js/ogv.js',
     mode: 'production',
+    devtool: inlineSourceMap,
     output: {
       path: path.resolve(__dirname, BUILD_DIR),
       publicPath: publicPath(),
@@ -90,6 +92,7 @@ module.exports = [
     // Alt limited entry point for compat testing before loading
     entry: './src/js/ogv-support.js',
     mode: 'production',
+    devtool: inlineSourceMap,
     output: {
       path: path.resolve(__dirname, BUILD_DIR),
       publicPath: publicPath(),
@@ -107,6 +110,7 @@ module.exports = [
     // Alt limited entry point for just exposting the version marker string
     entry: './src/js/ogv-version.js',
     mode: 'production',
+    devtool: inlineSourceMap,
     output: {
       path: path.resolve(__dirname, BUILD_DIR),
       publicPath: publicPath(),
@@ -124,6 +128,7 @@ module.exports = [
 	{
 	  entry: './src/js/workers/ogv-worker-audio.js',
     mode: 'production',
+    devtool: inlineSourceMap,
 	  output: {
 	    path: path.resolve(__dirname, BUILD_DIR),
       publicPath: publicPath(),
@@ -141,6 +146,7 @@ module.exports = [
   {
     entry: './src/js/workers/ogv-worker-video.js',
     mode: 'production',
+    devtool: inlineSourceMap,
     output: {
       path: path.resolve(__dirname, BUILD_DIR),
       publicPath: publicPath(),
