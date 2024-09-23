@@ -205,7 +205,7 @@ class OGVWrapperCodec {
 						this.onseek(offset);
 					}
 				};
-				demuxer.init();
+				demuxer.init(this.options.fileSize, this.options.file);
 				// demuxer.init(this.options.file);
 				this.processing = false;
 				callback();

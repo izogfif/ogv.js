@@ -2,10 +2,10 @@
 
 // External deps
 import YUVCanvas from 'yuv-canvas';
-import StreamFile from 'stream-file';
+import StreamFile from './stream-file/stream-file.js';
 
 // Internal deps
-import {AudioFeeder} from './audio-feeder/index.js';
+import { AudioFeeder } from './audio-feeder/index.js';
 import OGVLoader from './OGVLoaderWeb.js';
 import Bisector from './Bisector.js';
 import extend from './extend.js';
@@ -36,16 +36,16 @@ const nextTick = (() => {
 
 const constants = {
 	/**
-	 * Constants for networkState
-	 */
+		* Constants for networkState
+		*/
 	NETWORK_EMPTY: 0,
 	NETWORK_IDLE: 1,
 	NETWORK_LOADING: 2,
 	NETWORK_NO_SOURCE: 3,
 
 	/**
-	 * Constants for readyState
-	 */
+		* Constants for readyState
+		*/
 	HAVE_NOTHING: 0,
 	HAVE_METADATA: 1,
 	HAVE_CURRENT_DATA: 2,
@@ -104,14 +104,14 @@ function OGVJSElement() {
 OGVJSElement.prototype = Object.create(HTMLElement.prototype, {});
 
 /**
- * Player class -- instantiate one of these to get an 'ogvjs' HTML element
- * which has a similar interface to the HTML audio/video elements.
- *
- * @param options: optional dictionary of options:
- *                 'base': string; base URL for additional resources, such as codec libraries
- *                 'webGL': bool; pass true to use WebGL acceleration if available
- *                 'forceWebGL': bool; pass true to require WebGL even if not detected
- */
+	* Player class -- instantiate one of these to get an 'ogvjs' HTML element
+	* which has a similar interface to the HTML audio/video elements.
+	*
+	* @param options: optional dictionary of options:
+	*                 'base': string; base URL for additional resources, such as codec libraries
+	*                 'webGL': bool; pass true to use WebGL acceleration if available
+	*                 'forceWebGL': bool; pass true to require WebGL even if not detected
+	*/
 class OGVPlayer extends OGVJSElement {
 	constructor(options) {
 		super();
@@ -262,8 +262,8 @@ class OGVPlayer extends OGVJSElement {
 
 		Object.defineProperties(this, {
 			/**
-			 * HTMLMediaElement src property
-			 */
+				* HTMLMediaElement src property
+				*/
 			src: {
 				get: function getSrc() {
 					return this.getAttribute('src') || '';
@@ -287,8 +287,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * HTMLMediaElement buffered property
-			 */
+				* HTMLMediaElement buffered property
+				*/
 			buffered: {
 				get: function getBuffered() {
 					let ranges;
@@ -306,8 +306,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * HTMLMediaElement seekable property
-			 */
+				* HTMLMediaElement seekable property
+				*/
 			seekable: {
 				get: function getSeekable() {
 					if (this.duration < Infinity && this._stream && this._stream.seekable && this._codec && this._codec.seekable) {
@@ -319,8 +319,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * HTMLMediaElement currentTime property
-			 */
+				* HTMLMediaElement currentTime property
+				*/
 			currentTime: {
 				get: function getCurrentTime() {
 					if (this._state == State.SEEKING) {
@@ -343,8 +343,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * HTMLMediaElement duration property
-			 */
+				* HTMLMediaElement duration property
+				*/
 			duration: {
 				get: function getDuration() {
 					if (this._codec && this._codec.loadedMetadata) {
@@ -360,8 +360,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * HTMLMediaElement paused property
-			 */
+				* HTMLMediaElement paused property
+				*/
 			paused: {
 				get: function getPaused() {
 					return this._paused;
@@ -369,8 +369,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * HTMLMediaElement ended property
-			 */
+				* HTMLMediaElement ended property
+				*/
 			ended: {
 				get: function getEnded() {
 					return this._ended;
@@ -378,8 +378,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * HTMLMediaElement ended property
-			 */
+				* HTMLMediaElement ended property
+				*/
 			seeking: {
 				get: function getSeeking() {
 					return (this._state == State.SEEKING);
@@ -387,8 +387,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * HTMLMediaElement muted property
-			 */
+				* HTMLMediaElement muted property
+				*/
 			muted: {
 				get: function getMuted() {
 					return this._muted;
@@ -407,8 +407,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * HTMLMediaElement poster property
-			 */
+				* HTMLMediaElement poster property
+				*/
 			poster: {
 				get: function getPoster() {
 					return this._poster;
@@ -446,8 +446,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * HTMLMediaElement video width property
-			 */
+				* HTMLMediaElement video width property
+				*/
 			videoWidth: {
 				get: function getVideoWidth() {
 					if (this._videoInfo) {
@@ -459,8 +459,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * HTMLMediaElement video height property
-			 */
+				* HTMLMediaElement video height property
+				*/
 			videoHeight: {
 				get: function getVideoHeight() {
 					if (this._videoInfo) {
@@ -472,8 +472,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * Custom video framerate property
-			 */
+				* Custom video framerate property
+				*/
 			ogvjsVideoFrameRate: {
 				get: function getOgvJsVideoFrameRate() {
 					if (this._videoInfo) {
@@ -489,8 +489,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * Custom audio metadata property
-			 */
+				* Custom audio metadata property
+				*/
 			ogvjsAudioChannels: {
 				get: function getOgvJsAudioChannels() {
 					if (this._audioInfo) {
@@ -502,8 +502,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * Custom audio metadata property
-			 */
+				* Custom audio metadata property
+				*/
 			ogvjsAudioSampleRate: {
 				get: function getOgvJsAudioChannels() {
 					if (this._audioInfo) {
@@ -515,9 +515,9 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * @property width
-			 * @todo reflect to the width attribute?
-			 */
+				* @property width
+				* @todo reflect to the width attribute?
+				*/
 			width: {
 				get: function getWidth() {
 					return this._width;
@@ -529,9 +529,9 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * @property height
-			 * @todo reflect to the height attribute?
-			 */
+				* @property height
+				* @todo reflect to the height attribute?
+				*/
 			height: {
 				get: function getHeight() {
 					return this._height;
@@ -543,10 +543,10 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * @property autoplay {boolean} stub prop
-			 * @todo reflect to the autoplay attribute?
-			 * @todo implement actual autoplay behavior
-			 */
+				* @property autoplay {boolean} stub prop
+				* @todo reflect to the autoplay attribute?
+				* @todo implement actual autoplay behavior
+				*/
 			autoplay: {
 				get: function getAutoplay() {
 					return false;
@@ -557,10 +557,10 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * @property controls {boolean} stub prop
-			 * @todo reflect to the controls attribute?
-			 * @todo implement actual control behavior
-			 */
+				* @property controls {boolean} stub prop
+				* @todo reflect to the controls attribute?
+				* @todo implement actual control behavior
+				*/
 			controls: {
 				get: function getControls() {
 					return false;
@@ -571,10 +571,10 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * @property loop {boolean} stub prop
-			 * @todo reflect to the controls attribute?
-			 * @todo implement actual loop behavior
-			 */
+				* @property loop {boolean} stub prop
+				* @todo reflect to the controls attribute?
+				* @todo implement actual loop behavior
+				*/
 			loop: {
 				get: function getLoop() {
 					return false;
@@ -585,27 +585,27 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * @property crossOrigin {string|null}
-			 * @todo properly pass through to underlying file
-			 */
+				* @property crossOrigin {string|null}
+				* @todo properly pass through to underlying file
+				*/
 			crossOrigin: {
 				get: function getCrossOrigin() {
 					return this._crossOrigin;
 				},
 				set: function setCrossOrigin(val) {
 					switch (val) {
-					case null:
-						this._crossOrigin = val;
-						this.removeAttribute('crossorigin');
-						break;
-					default:
-						val = 'anonymous';
+						case null:
+							this._crossOrigin = val;
+							this.removeAttribute('crossorigin');
+							break;
+						default:
+							val = 'anonymous';
 						// fall through
-					case '':
-					case 'anonymous':
-					case 'use-credentials':
-						this._crossOrigin = val;
-						this.setAttribute('crossorigin', val);
+						case '':
+						case 'anonymous':
+						case 'use-credentials':
+							this._crossOrigin = val;
+							this.setAttribute('crossorigin', val);
 					}
 					if (this._thumbnail) {
 						this._thumbnail.crossOrigin = val;
@@ -614,9 +614,9 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * Returns the URL to the currently-playing resource.
-			 * @property currentSrc {string|null}
-			 */
+				* Returns the URL to the currently-playing resource.
+				* @property currentSrc {string|null}
+				*/
 			currentSrc: {
 				get: function getCurrentSrc() {
 					// @todo return absolute URL per spec
@@ -637,8 +637,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * @property error {OGVMediaError|null}
-			 */
+				* @property error {OGVMediaError|null}
+				*/
 			error: {
 				get: function getError() {
 					if (this._state === State.ERROR) {
@@ -654,8 +654,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * @property preload {string}
-			 */
+				* @property preload {string}
+				*/
 			preload: {
 				get: function getPreload() {
 					return this.getAttribute('preload') || '';
@@ -666,9 +666,9 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * @property readyState {number}
-			 * @todo return more accurate info about availability of data
-			 */
+				* @property readyState {number}
+				* @todo return more accurate info about availability of data
+				*/
 			readyState: {
 				get: function getReadyState() {
 					if (this._stream && this._codec && this._codec.loadedMetadata) {
@@ -682,9 +682,9 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * @property networkState {number}
-			 * @todo implement
-			 */
+				* @property networkState {number}
+				* @todo implement
+				*/
 			networkState: {
 				get: function getNetworkState() {
 					if (this._stream) {
@@ -704,8 +704,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * @property playbackRate {number}
-			 */
+				* @property playbackRate {number}
+				*/
 			playbackRate: {
 				get: function getPlaybackRate() {
 					return this._playbackRate;
@@ -725,9 +725,9 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * @property played {OGVTimeRanges}
-			 * @todo implement correctly more or less
-			 */
+				* @property played {OGVTimeRanges}
+				* @todo implement correctly more or less
+				*/
 			played: {
 				get: function getPlayed() {
 					return new OGVTimeRanges([[0, this.currentTime]]);
@@ -735,8 +735,8 @@ class OGVPlayer extends OGVJSElement {
 			},
 
 			/**
-			 * @property volume {number}
-			 */
+				* @property volume {number}
+				*/
 			volume: {
 				get: function getVolume() {
 					return this._volume;
@@ -755,14 +755,14 @@ class OGVPlayer extends OGVJSElement {
 		// Events!
 
 		/**
-		 * custom onframecallback, takes frame decode time in ms
-		 */
+			* custom onframecallback, takes frame decode time in ms
+			*/
 		this.onframecallback = null;
 
 		/**
-		 * Network state events
-		 * @todo implement
-		 */
+			* Network state events
+			* @todo implement
+			*/
 		this.onloadstate = null;
 		this.onprogress = null;
 		this.onsuspend = null;
@@ -771,102 +771,102 @@ class OGVPlayer extends OGVJSElement {
 		this.onstalled = null;
 
 		/**
-		 * Called when all metadata is available.
-		 * Note in theory we must know 'duration' at this point.
-		 */
+			* Called when all metadata is available.
+			* Note in theory we must know 'duration' at this point.
+			*/
 		this.onloadedmetadata = null;
 
 		/**
-		 * Called when enough data for first frame is ready.
-		 * @todo implement
-		 */
+			* Called when enough data for first frame is ready.
+			* @todo implement
+			*/
 		this.onloadeddata = null;
 
 		/**
-		 * Called when enough data is ready to start some playback.
-		 * @todo implement
-		 */
+			* Called when enough data is ready to start some playback.
+			* @todo implement
+			*/
 		this.oncanplay = null;
 
 		/**
-		 * Called when enough data is ready to play through to the
-		 * end if no surprises in network download rate.
-		 * @todo implement
-		 */
+			* Called when enough data is ready to play through to the
+			* end if no surprises in network download rate.
+			* @todo implement
+			*/
 		this.oncanplaythrough = null;
 
 		/**
-		 * Called when playback continues after a stall
-		 * @todo implement
-		 */
+			* Called when playback continues after a stall
+			* @todo implement
+			*/
 		this.onplaying = null;
 
 		/**
-		 * Called when playback is delayed waiting on data
-		 * @todo implement
-		 */
+			* Called when playback is delayed waiting on data
+			* @todo implement
+			*/
 		this.onwaiting = null;
 
 		/**
-		 * Called when seeking begins
-		 * @todo implement
-		 */
+			* Called when seeking begins
+			* @todo implement
+			*/
 		this.onseeking = null;
 
 		/**
-		 * Called when seeking ends
-		 * @todo implement
-		 */
+			* Called when seeking ends
+			* @todo implement
+			*/
 		this.onseeked = null;
 
 		/**
-		 * Called when playback ends
-		 */
+			* Called when playback ends
+			*/
 		this.onended = null;
 
 		/**
-		 * Called when duration becomes known
-		 * @todo implement
-		 */
+			* Called when duration becomes known
+			* @todo implement
+			*/
 		this.ondurationchange = null;
 
 		/**
-		 * Called periodically during playback
-		 */
+			* Called periodically during playback
+			*/
 		this.ontimeupdate = null;
 
 		/**
-		 * Called when we start playback
-		 */
+			* Called when we start playback
+			*/
 		this.onplay = null;
 
 		/**
-		 * Called when we get paused
-		 */
+			* Called when we get paused
+			*/
 		this.onpause = null;
 
 		/**
-		 * Called when the playback rate changes
-		 * @todo implement
-		 */
+			* Called when the playback rate changes
+			* @todo implement
+			*/
 		this.onratechange = null;
 
 		/**
-		 * Called when the size of the video stream changes
-		 * @todo implement
-		 */
+			* Called when the size of the video stream changes
+			* @todo implement
+			*/
 		this.onresize = null;
 
 		/**
-		 * Called when the volume setting changes
-		 * @todo implement
-		 */
+			* Called when the volume setting changes
+			* @todo implement
+			*/
 		this.onvolumechange = null;
 
 		/**
-		 * Called when the audio feeder is created
-		 * This allows for modifying the instance for special audio processing
-		 */
+			* Called when the audio feeder is created
+			* This allows for modifying the instance for special audio processing
+			*/
 		this.onaudiofeedercreated = null;
 	}
 
@@ -893,7 +893,7 @@ class OGVPlayer extends OGVJSElement {
 		}
 	}
 
-	_fireEvent(eventName, props={}) {
+	_fireEvent(eventName, props = {}) {
 		this._log('fireEvent ' + eventName);
 
 		let standard = (typeof Event == 'function');
@@ -923,7 +923,7 @@ class OGVPlayer extends OGVJSElement {
 		}
 	}
 
-	_fireEventAsync(eventName, props={}) {
+	_fireEventAsync(eventName, props = {}) {
 		this._log('fireEventAsync ' + eventName);
 		nextTick(() => {
 			this._fireEvent(eventName, props);
@@ -1043,10 +1043,10 @@ class OGVPlayer extends OGVJSElement {
 	}
 
 	/**
-	 * Get audio playback time position in file's units
-	 *
-	 * @return {number} seconds since file start
-	 */
+		* Get audio playback time position in file's units
+		*
+		* @return {number} seconds since file start
+		*/
 	_getPlaybackTime(state) {
 		if (this._prebufferingAudio || this._paused) {
 			return this._initialPlaybackOffset;
@@ -1126,7 +1126,7 @@ class OGVPlayer extends OGVJSElement {
 		// timeline offset to 0?
 	}
 
-	_doFrameComplete(data={}) {
+	_doFrameComplete(data = {}) {
 		if (this._startedPlaybackInDocument && !document.body.contains(this)) {
 			// We've been de-parented since we last ran
 			// Stop playback at next opportunity!
@@ -1399,7 +1399,7 @@ class OGVPlayer extends OGVJSElement {
 					this._drawFrame(this._codec.frameBuffer);
 				}
 				finishedSeeking();
-			} );
+			});
 			this._codec.sync();
 			return;
 		} else {
@@ -1416,8 +1416,8 @@ class OGVPlayer extends OGVJSElement {
 	}
 
 	/**
-	 * @return {boolean} true to continue processing, false to wait for input data
-	 */
+		* @return {boolean} true to continue processing, false to wait for input data
+		*/
 	_doProcessLinearSeeking() {
 		let frameDuration;
 		if (this._codec.hasVideo) {
@@ -1607,7 +1607,7 @@ class OGVPlayer extends OGVJSElement {
 			// @fixme confirm format of webGL option
 			canvasOptions.webGL = this._options.webGL;
 		}
-		if(!!this._options.forceWebGL) {
+		if (!!this._options.forceWebGL) {
 			canvasOptions.webGL = 'required';
 		}
 
@@ -1738,7 +1738,8 @@ class OGVPlayer extends OGVJSElement {
 					// Keep processing headers
 					this._pingProcessing();
 				} else if (this._streamEnded) {
-					throw new Error('end of file before headers found');
+					// throw new Error('end of file before headers found');
+					this._pingProcessing(0);
 				} else {
 					// Read more data!
 					this._log('reading more cause we are out of data');
@@ -2008,7 +2009,7 @@ class OGVPlayer extends OGVJSElement {
 						let videoSyncPadding = (this._targetPerFrameTime / 1000) * (this._framePipelineDepth + this._pendingFrame);
 						let timeToResync = nextKeyframe - videoSyncPadding;
 
-						if (nextKeyframe >= 0 && nextKeyframe != this._codec.frameTimestamp && playbackPosition  >= timeToResync) {
+						if (nextKeyframe >= 0 && nextKeyframe != this._codec.frameTimestamp && playbackPosition >= timeToResync) {
 							this._log('skipping late frame at ' + this._decodedFrames[0].frameEndTimestamp + ' vs ' + playbackPosition + ', expect to see keyframe at ' + nextKeyframe);
 
 							// First skip any already-decoded frames
@@ -2046,7 +2047,7 @@ class OGVPlayer extends OGVJSElement {
 								frameDelay = (frame.frameEndTimestamp - playbackPosition) * 1000;
 								this._actualPerFrameTime = this._targetPerFrameTime - frameDelay;
 								this._lateFrames++;
-								this._codec.discardFrame(() => {/*fake*/});
+								this._codec.discardFrame(() => {/*fake*/ });
 								this._framesProcessed++; // pretend!
 								this._doFrameComplete(frame);
 							}
@@ -2288,8 +2289,8 @@ class OGVPlayer extends OGVJSElement {
 	}
 
 	/**
-	 * Are we waiting on an async operation that will return later?
-	 */
+		* Are we waiting on an async operation that will return later?
+		*/
 	_isProcessing() {
 		return (this._stream && (this._stream.buffering || this._stream.seeking))
 			|| (this._codec && this._codec.processing);
@@ -2323,14 +2324,14 @@ class OGVPlayer extends OGVJSElement {
 				// We're waiting on the codec already...
 			} else {
 				// Let the read/decode/draw loop know we're out!
-				this._pingProcessing();
+				this._pingProcessing(0);
 			}
 		}).catch((e) => {
 			this._onStreamError(e)
 		});
 	}
 
-	_pingProcessing(delay=-1) {
+	_pingProcessing(delay = -1) {
 		if (this._stream && this._stream.waiting) {
 			// wait for this input pls
 			this._log('waiting on input');
@@ -2377,6 +2378,7 @@ class OGVPlayer extends OGVJSElement {
 			simd: this._enableSIMD,
 			url: this._stream.url,
 			file: this._inputFile,
+			fileSize: this._stream.length,
 		};
 		if (this._detectedType) {
 			codecOptions.type = this._detectedType;
@@ -2423,10 +2425,10 @@ class OGVPlayer extends OGVJSElement {
 				// Ogg stream
 				this._detectedType = 'video/ogg';
 			} else if (hdr.length > 4 &&
-						hdr[0] == 0x1a &&
-						hdr[1] == 0x45 &&
-						hdr[2] == 0xdf &&
-						hdr[3] == 0xa3
+				hdr[0] == 0x1a &&
+				hdr[1] == 0x45 &&
+				hdr[2] == 0xdf &&
+				hdr[3] == 0xa3
 			) {
 				// Matroska or WebM
 				this._detectedType = 'video/webm';
@@ -2504,17 +2506,17 @@ class OGVPlayer extends OGVJSElement {
 	}
 
 	/**
-	 * HTMLMediaElement load method
-	 *
-	 * https://www.w3.org/TR/html5/embedded-content-0.html#concept-media-load-algorithm
-	 */
+		* HTMLMediaElement load method
+		*
+		* https://www.w3.org/TR/html5/embedded-content-0.html#concept-media-load-algorithm
+		*/
 	load() {
 		this._prepForLoad();
 	}
 
 	/**
-	 * HTMLMediaElement canPlayType method
-	 */
+		* HTMLMediaElement canPlayType method
+		*/
 	canPlayType(contentType) {
 		let type = new OGVMediaType(contentType);
 		function checkTypes(supported) {
@@ -2551,9 +2553,9 @@ class OGVPlayer extends OGVJSElement {
 	}
 
 	/**
-	 * HTMLMediaElement play method
-	 * @fixme return a promise
-	 */
+		* HTMLMediaElement play method
+		* @fixme return a promise
+		*/
 	play() {
 		if (!this._muted && !this._options.audioContext) {
 			OGVPlayer.initSharedAudioContext();
@@ -2603,8 +2605,8 @@ class OGVPlayer extends OGVJSElement {
 	}
 
 	/**
-	 * custom getPlaybackStats method
-	 */
+		* custom getPlaybackStats method
+		*/
 	getPlaybackStats() {
 		return {
 			targetPerFrameTime: this._targetPerFrameTime,
@@ -2652,15 +2654,15 @@ class OGVPlayer extends OGVJSElement {
 	}
 
 	/**
-	 * @deprecated
-	 */
+		* @deprecated
+		*/
 	getVideo() {
 		return null;
 	}
 
 	/**
-	 * HTMLMediaElement pause method
-	 */
+		* HTMLMediaElement pause method
+		*/
 	pause() {
 		if (!this._paused) {
 			if (this._nextProcessingTimer) {
@@ -2675,8 +2677,8 @@ class OGVPlayer extends OGVJSElement {
 	}
 
 	/**
-	 * custom 'stop' method
-	 */
+		* custom 'stop' method
+		*/
 	stop() {
 		this._stopVideo();
 		this._paused = true;
@@ -2690,8 +2692,8 @@ class OGVPlayer extends OGVJSElement {
 }
 
 /**
- * Set up constants on the class and instances
- */
+	* Set up constants on the class and instances
+	*/
 extend(OGVPlayer, constants);
 
 OGVPlayer.instanceCount = 0;
@@ -2705,12 +2707,12 @@ function StyleManager() {
 		'position: relative; ' +
 		'-webkit-user-select: none; ' +
 		'-webkit-tap-highlight-color: rgba(0,0,0,0); '
-		'}';
+	'}';
 	document.head.appendChild(el);
 
 	var sheet = el.sheet;
 
-	self.appendRule = function(selector, defs) {
+	self.appendRule = function (selector, defs) {
 		var bits = [];
 		for (var prop in defs) {
 			if (defs.hasOwnProperty(prop)) {

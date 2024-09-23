@@ -70,7 +70,7 @@ module.exports = [
   {
     // Main entry point! - ES6
     entry: './src/js/ogv.js',
-    mode: 'production',
+    mode: 'development',
     devtool: inlineSourceMap,
     output: {
       path: path.resolve(__dirname, BUILD_DIR),
@@ -91,7 +91,7 @@ module.exports = [
   {
     // Alt limited entry point for compat testing before loading
     entry: './src/js/ogv-support.js',
-    mode: 'production',
+    mode: 'development',
     devtool: inlineSourceMap,
     output: {
       path: path.resolve(__dirname, BUILD_DIR),
@@ -109,7 +109,7 @@ module.exports = [
   {
     // Alt limited entry point for just exposting the version marker string
     entry: './src/js/ogv-version.js',
-    mode: 'production',
+    mode: 'development',
     devtool: inlineSourceMap,
     output: {
       path: path.resolve(__dirname, BUILD_DIR),
@@ -127,7 +127,7 @@ module.exports = [
   },
 	{
 	  entry: './src/js/workers/ogv-worker-audio.js',
-    mode: 'production',
+    mode: 'development',
     devtool: inlineSourceMap,
 	  output: {
 	    path: path.resolve(__dirname, BUILD_DIR),
@@ -145,7 +145,7 @@ module.exports = [
 	},
   {
     entry: './src/js/workers/ogv-worker-video.js',
-    mode: 'production',
+    mode: 'development',
     devtool: inlineSourceMap,
     output: {
       path: path.resolve(__dirname, BUILD_DIR),

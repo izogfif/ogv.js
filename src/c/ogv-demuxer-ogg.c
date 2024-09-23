@@ -241,7 +241,7 @@ static long tellCallback(void *user_handle)
 	return (long)bq_tell(bq);
 }
 
-void ogv_demuxer_init(const char *url, int len) {
+void ogv_demuxer_init(const char *fileSizeAndUrl, int len) {
     appState = STATE_BEGIN;
 	bufferQueue = bq_init();
 	oggz = oggz_new(OGGZ_READ | OGGZ_AUTO);

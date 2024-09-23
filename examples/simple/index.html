@@ -11,13 +11,14 @@
 
     <script src="lib/ogv.js"></script>
     <script type="text/javascript">
-      document.getElementById("inputFile").addEventListener("change", (e) => {
+      // document.getElementById("inputFile").addEventListener("change", (e) => {
         var player = new OGVPlayer({
           forceWebGL: true,
           worker: true,
           wasm: true,
           // simd: true,
         });
+        // player.inputFile = e.target.files[0];
 
         var container = document.createElement("div");
 
@@ -34,8 +35,8 @@
           pause.disabled = true;
           player.pause();
         });
-        player.inputFile = e.target.files[0];
-        player.src = "http://localhost:4600/sample-videos/cheetah.ogv";
+        // player.src = "http://localhost:4600/sample-videos/cheetah.ogv";
+        player.src = "http://localhost:4600/sample-videos/sintel265-large.mp4";
 
         player.addEventListener("playing", function () {
           play.disabled = true;
@@ -46,7 +47,7 @@
           play.disabled = false;
           pause.disabled = true;
         });
-      });
+      // });
     </script>
   </body>
 </html>

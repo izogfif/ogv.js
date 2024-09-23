@@ -38,7 +38,7 @@ enum AppState {
     STATE_SEEKING
 } appState;
 
-void ogv_demuxer_init(const char *url, int len) {
+void ogv_demuxer_init(const char *fileSizeAndUrl, int len) {
     appState = STATE_BEGIN;
     bufferQueue = bq_init();
 }
@@ -355,7 +355,9 @@ static int processSeeking(void)
             int64_t target = bufferQueue->lastSeekTarget;
             bq_flush(bufferQueue);
             bufferQueue->pos = target;
-            ogvjs_callback_seek(target);
+			uint32_t lower = target & 0xffffffff;
+			uint32_t higher = target >> 32;
+            ogvjs_callback_seek(lower, higher);
         }
         // Return false to indicate we need i/o
         return 0;
