@@ -13,6 +13,7 @@
     <script type="text/javascript">
       // document.getElementById("inputFile").addEventListener("change", (e) => {
         var player = new OGVPlayer({
+          // debug: true,
           forceWebGL: true,
           worker: true,
           wasm: true,
@@ -36,7 +37,16 @@
           player.pause();
         });
         // player.src = "http://localhost:4600/sample-videos/cheetah.ogv";
-        player.src = "http://localhost:4600/sample-videos/sintel265-large.mp4";
+        // player.src = "http://localhost:4600/sample-videos/sintel265-large.mp4";
+        // player.src = "http://localhost:4600/sample-videos/sintel265.mp4";
+        // player.src = "http://localhost:4600/sample-videos/Sintel.2010.4k.mkv";
+        // player.src = "http://localhost:4600/sample-videos/tua.mkv";
+        // player.src = "http://localhost:4600/sample-videos/tua640.mkv";
+        player.src = "http://localhost:4600/sample-videos/vivy.mkv";
+        // player.src = "http://localhost:4600/sample-videos/vivy265-yuv420p.mp4";
+        // player.src = "http://localhost:4600/sample-videos/vivy265-yuv420p10le.mp4";
+        // player.src = "http://localhost:4600/sample-videos/bbb_video_avc_frag.mp4";
+        // player.src = "http://localhost:4600/sample-videos/fate.mkv";
 
         player.addEventListener("playing", function () {
           play.disabled = true;

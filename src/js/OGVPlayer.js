@@ -1739,7 +1739,9 @@ class OGVPlayer extends OGVJSElement {
 					this._pingProcessing();
 				} else if (this._streamEnded) {
 					// throw new Error('end of file before headers found');
-					this._pingProcessing(0);
+					setTimeout(() => {
+						this._pingProcessing();
+					}, 1000);
 				} else {
 					// Read more data!
 					this._log('reading more cause we are out of data');
@@ -2303,7 +2305,7 @@ class OGVPlayer extends OGVJSElement {
 		}
 		// keep i/o size small to reduce CPU impact of demuxing on slow machines
 		// @todo make buffer size larger when packets are larger?
-		const bufferSize = 32768;
+		const bufferSize = 1024 * 1024;
 		this._stream.read(bufferSize).then((data) => {
 			this._log('got input ' + [data.byteLength]);
 
