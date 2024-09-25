@@ -17,7 +17,7 @@ const proxyInfo = {
     },
     demuxer: {
         proxy: OGVDemuxerProxy,
-        worker: 'ogv-worker-video.js',
+        worker: 'ogv-worker-demuxer.js',
     }
 };
 

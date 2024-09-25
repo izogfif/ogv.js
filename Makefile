@@ -167,6 +167,7 @@ dist: js README.md COPYING
 	      build/ogv-decoder-video-av1.wasm \
 	      build/ogv-worker-audio.js \
 	      build/ogv-worker-video.js \
+	      build/ogv-worker-demuxer.js \
 	      README.md \
 	      COPYING \
 	      dist/

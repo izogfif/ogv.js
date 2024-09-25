@@ -161,4 +161,22 @@ module.exports = [
     },
     optimization: optopts,
   },
+  {
+    entry: './src/js/workers/ogv-worker-demuxer.js',
+    mode: 'development',
+    devtool: inlineSourceMap,
+    output: {
+      path: path.resolve(__dirname, BUILD_DIR),
+      publicPath: publicPath(),
+      filename: 'ogv-worker-demuxer.js'
+    },
+    plugins: plugins,
+    module: {
+      rules: [
+        babelRuleES6,
+        urlLoader
+      ]
+    },
+    optimization: optopts,
+  },
 ];
