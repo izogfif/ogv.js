@@ -6,8 +6,8 @@ class OGVDecoderVideoProxy extends OGVProxyClass({
 	frameBuffer: null,
 	cpuTime: 0
 }) {
-	init(callback) {
-		this.proxy('init', [], callback);
+	init(data, callback) {
+		this.proxy('init', [data], callback);
 	}
 
 	processHeader(data, callback) {

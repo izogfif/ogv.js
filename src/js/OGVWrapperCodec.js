@@ -460,11 +460,13 @@ class OGVWrapperCodec {
 				}
 				videoCodecClass(videoOptions).then((decoder) => {
 					this.videoDecoder = decoder;
-					decoder.init(() => {
-						this.loadedVideoMetadata = decoder.loadedMetadata;
-						this.processing = false;
-						callback();
-					});
+					decoder.init(
+						videoOptions.videoFormat.paramsBuf,
+						() => {
+							this.loadedVideoMetadata = decoder.loadedMetadata;
+							this.processing = false;
+							callback();
+						});
 				});
 			}, {
 				worker: this.options.worker && !this.options.threading

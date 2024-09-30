@@ -1739,9 +1739,9 @@ class OGVPlayer extends OGVJSElement {
 					this._pingProcessing();
 				} else if (this._streamEnded) {
 					// throw new Error('end of file before headers found');
-					setTimeout(() => {
-						this._pingProcessing();
-					}, 1000);
+					// setTimeout(() => {
+					// 	this._pingProcessing();
+					// }, 1000);
 				} else {
 					// Read more data!
 					this._log('reading more cause we are out of data');

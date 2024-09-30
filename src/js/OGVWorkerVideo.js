@@ -6,8 +6,8 @@ let proxy = new OGVWorkerSupport([
 	'frameBuffer',
 	'cpuTime'
 ], {
-	init: function(_args, callback) {
-		this.target.init(callback);
+	init: function(args, callback) {
+		this.target.init(args[0], callback);
 	},
 
 	processHeader: function(args, callback) {
