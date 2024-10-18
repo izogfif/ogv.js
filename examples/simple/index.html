@@ -12,54 +12,71 @@
     <script src="lib/ogv.js"></script>
     <script type="text/javascript">
       // document.getElementById("inputFile").addEventListener("change", (e) => {
-        var player = new OGVPlayer({
-          // debug: true,
-          forceWebGL: true,
-          worker: true,
-          wasm: true,
-          // simd: true,
-        });
-        // player.inputFile = e.target.files[0];
+      var player = new OGVPlayer({
+        // debug: true,
+        forceWebGL: true,
+        worker: true,
+        wasm: true,
+        // simd: true,
+      });
+      // player.inputFile = e.target.files[0];
 
-        var container = document.createElement("div");
+      var container = document.createElement("div");
 
-        container.appendChild(player);
+      container.appendChild(player);
 
-        document.body.appendChild(container);
+      document.body.appendChild(container);
 
-        play.addEventListener("click", function () {
-          play.disabled = true;
-          player.play();
-        });
+      play.addEventListener("click", function () {
+        play.disabled = true;
+        player.play();
+      });
 
-        pause.addEventListener("click", function () {
-          pause.disabled = true;
-          player.pause();
-        });
-        // player.src = "http://localhost:4600/sample-videos/cheetah.ogv";
-        // player.src = "http://localhost:4600/sample-videos/sintel265-large.mp4";
-        // player.src = "http://localhost:4600/sample-videos/sintel265.mp4";
-        // player.src = "http://localhost:4600/sample-videos/Sintel.2010.4k.mkv";
-        // player.src = "http://localhost:4600/sample-videos/tua.mkv";
-        // player.src = "http://localhost:4600/sample-videos/tua640.mkv";
-        // player.src = "http://localhost:4600/sample-videos/vivy.mkv";
-        // player.src = "http://localhost:4600/sample-videos/vivy265-yuv420p.mp4";
-        // player.src = "http://localhost:4600/sample-videos/vivy265-yuv420p10le.mp4";
-        // player.src = "http://localhost:4600/sample-videos/vivyav1-yuv420p.mp4";
-        player.src = "http://localhost:4600/sample-videos/vivyav1-yuv420p10le-rav.mp4";
-        // player.src = "http://localhost:4600/sample-videos/fate.mkv";
-        // player.src = "http://localhost:4600/sample-videos/bbb_video_avc_frag.mp4";
-        // player.src = "http://localhost:4600/sample-videos/fate.mkv";
+      pause.addEventListener("click", function () {
+        pause.disabled = true;
+        player.pause();
+      });
+      // player.src = "http://localhost:4600/sample-videos/cheetah.ogv";
+      // player.src = "http://localhost:4600/sample-videos/sintel265-large.mp4";
+      // player.src = "http://localhost:4600/sample-videos/sintel265.mp4";
+      // player.src = "http://localhost:4600/sample-videos/Sintel.2010.4k.mkv";
+      // player.src = "http://localhost:4600/sample-videos/tua.mkv";
+      // player.src = "http://localhost:4600/sample-videos/tua-265-420p10le.mp4";
+      // player.src = "http://localhost:4600/sample-videos/tua-265-420p.mp4";
+      player.src = "http://localhost:4600/sample-videos/tua2-264-444p.mp4";
+      // player.src = "http://localhost:4600/sample-videos/tua2-265-aac.mp4";
+      
+      // player.src = "http://localhost:4600/sample-videos/tua640.mkv";
+      // player.src = "http://localhost:4600/sample-videos/vivy.mkv";
+      // player.src = "http://localhost:4600/sample-videos/vivy265-yuv420p.mp4";
+      // player.src = "http://localhost:4600/sample-videos/vivy265-yuv420p10le.mp4";
+      // player.src = "http://localhost:4600/sample-videos/vivyav1-yuv420p.mp4";
+      // player.src = "http://localhost:4600/sample-videos/vivyav1-yuv420p10le-rav.mp4";
+      // player.src = "http://localhost:4600/sample-videos/vivyav1-yuv420p10le-svt.mp4";
+      // player.src = "http://localhost:4600/sample-videos/bbb_video_avc_frag.mp4";
+      // player.src = "http://localhost:4600/sample-videos/fate-264-420p.mkv";
+      // player.src = "http://localhost:4600/sample-videos/fate-265-420p.mkv";
+      // This is the original
+      // player.src = "http://localhost:4600/sample-videos/fate-265-420p10le.mkv";
+      // player.src = "http://localhost:4600/sample-videos/fate-av1-420p.mkv";
+      // player.src = "http://localhost:4600/sample-videos/fate-av1-420p10le.mp4";
+      // player.src = "http://localhost:4600/sample-videos/fate-265-444p10le.mp4";
+      // player.src = "http://localhost:4600/sample-videos/fate-265-444p12le-62.mp4";
 
-        player.addEventListener("playing", function () {
-          play.disabled = true;
-          pause.disabled = false;
-        });
+      player.addEventListener("playing", function () {
+        play.disabled = true;
+        pause.disabled = false;
+      });
 
-        player.addEventListener("pause", function () {
-          play.disabled = false;
-          pause.disabled = true;
-        });
+      player.addEventListener("pause", function () {
+        play.disabled = false;
+        pause.disabled = true;
+      });
+
+      // player.addEventListener("framecallback", function (info) {
+      //   console.log(info);
+      // });
+
       // });
     </script>
   </body>
