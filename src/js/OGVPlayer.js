@@ -111,9 +111,12 @@ OGVJSElement.prototype = Object.create(HTMLElement.prototype, {});
   *                 'base': string; base URL for additional resources, such as codec libraries
   *                 'webGL': bool; pass true to use WebGL acceleration if available
   *                 'forceWebGL': bool; pass true to require WebGL even if not detected
-  *                 'threadCount': int; number of threads for decoder worker. Default: 8.
+  *                 'threadCount': int; number of threads for decoder worker. Default: 4.
   *                 'packetBufferSize': int; maximum number of packets held in the buffer. Default: 10.
   *                 'decodedFrameBufferSize': int; maximum number of decoded frames to keep in an internal buffer. Default: 3.
+  *                 'debugDemuxer': boolean; pass true to show detailed debugging messages of demuxer. Default: false.
+  *                 'debugDecoder': boolean; pass true to show detailed debugging messages of decoder. Default: false.
+  *                 'perfLogs': boolean; pass true to print decoder timings. Default: false.
   */
 class OGVPlayer extends OGVJSElement {
   constructor(options) {
@@ -121,6 +124,25 @@ class OGVPlayer extends OGVJSElement {
 
     options = options || {};
     options.base = options.base || OGVLoader.base;
+    if (typeof options.threadCount !== 'number' || options.threadCount <= 0) {
+      options.threadCount = 4;
+    }
+    if (typeof options.packetBufferSize !== 'number' || options.packetBufferSize <= 0) {
+      options.packetBufferSize = 10;
+    }
+    if (typeof options.decodedFrameBufferSize !== 'number' || options.decodedFrameBufferSize <= 0) {
+      options.decodedFrameBufferSize = 3;
+    }
+    if (typeof options.debugDemuxer !== 'boolean') {
+      options.debugDemuxer = false;
+    }
+    if (typeof options.debugDecoder !== 'boolean') {
+      options.debugDecoder = false;
+    }
+    if (typeof options.perfLogs !== 'boolean') {
+      options.perfLogs = false;
+    }
+
     this._options = options;
 
     this._instanceId = 'ogvjs' + (++OGVPlayer.instanceCount);
@@ -2388,6 +2410,7 @@ class OGVPlayer extends OGVJSElement {
       debugDecoder: this._options.debugDecoder,
       packetBufferSize: this._options.packetBufferSize,
       decodedFrameBufferSize: this._options.decodedFrameBufferSize,
+      perfLogs: this._options.perfLogs,
     };
     if (this._detectedType) {
       codecOptions.type = this._detectedType;

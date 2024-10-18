@@ -212,6 +212,7 @@ class OGVWrapperCodec {
           this.options.packetBufferSize,
           this.options.decodedFrameBufferSize,
           this.options.fileSize,
+          this.options.perfLogs
         );
         // demuxer.init(this.options.file);
         this.processing = false;
