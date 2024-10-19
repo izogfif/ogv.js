@@ -11,7 +11,8 @@ import OGVLoader from './OGVLoaderWeb.js';
 
 const audioClassMap = {
   vorbis: 'OGVDecoderAudioVorbis',
-  opus: 'OGVDecoderAudioOpus'
+  opus: 'OGVDecoderAudioOpus',
+  ffmpeg: 'OGVDecoderAudioFfmpeg',
 };
 
 const videoClassMap = {
@@ -19,6 +20,7 @@ const videoClassMap = {
   vp8: 'OGVDecoderVideoVP8',
   vp9: 'OGVDecoderVideoVP9',
   av1: 'OGVDecoderVideoAV1',
+  ffmpeg: 'OGVDecoderVideoFfmpeg',
 };
 
 const videoSimdClassMap = {

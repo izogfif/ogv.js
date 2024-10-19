@@ -34,6 +34,7 @@ const proxyTypes = {
     OGVDecoderVideoAV1: 'video',
     OGVDecoderVideoAV1SIMD: 'video',
     OGVDemuxerOgg: 'demuxer',
+    OGVDecoderVideoFfmpeg: 'video',
 };
 
 class OGVLoaderWeb extends OGVLoaderBase {

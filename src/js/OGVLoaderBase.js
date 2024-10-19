@@ -18,6 +18,7 @@ const scriptMap = {
 	OGVDecoderVideoAV1SIMD: 'ogv-decoder-video-av1-simd.js',
 	OGVDecoderVideoAV1MT: 'ogv-decoder-video-av1-mt.js',
 	OGVDecoderVideoAV1SIMDMT: 'ogv-decoder-video-av1-simd-mt.js',
+	OGVDecoderVideoFfmpeg: 'ogv-decoder-video-ffmpeg.js',
 };
 
 class OGVLoaderBase {
